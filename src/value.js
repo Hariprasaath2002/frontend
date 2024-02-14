@@ -38,3 +38,30 @@ export const Reading=(Index)=>
 {
     return Details[Index];
 }
+
+export const Remove1=(index)=>
+{
+    Details=Details.filter(
+        (data,pos)=>
+        {
+            return pos!== index;
+        }
+    )
+    return Details;
+}
+
+export const Fetchexact = (name)=>
+{
+    const temp = Details.filter(
+        (data, index)=>
+        {
+            return data.studentname === name;
+        }
+    )
+    return temp[0];
+}
+
+export const replace=(data, pos)=>
+{
+    Details[pos]=data;
+}

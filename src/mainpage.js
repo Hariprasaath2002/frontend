@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { Form } from "./Form.js";
-import { List, Reading } from "./value.js";
+import { Fetchexact, List, Reading } from "./value.js";
 import { Readings } from "./Read.js";
+import { Remove1 } from "./value.js";
+import { Updatepage } from "./updatevalue.js";
 
 export let Mainpage = () => {
     const [Createpage, setCreatepage] = useState(false);
     const [Tempvalues, setTempvalues] = useState([]);
     const [Readpage, setReadpage]=useState(false);
     const [position,setPositon]=useState(0);
+    const [updatepage, setUpdatepage] = useState(false);
+    const [obj, setObj] = useState([]);
 
     useEffect(() => {
         setTempvalues(List);
@@ -18,7 +22,7 @@ export let Mainpage = () => {
             {
                 (Createpage)?
                 <>
-                    <Form />
+                    <Form/>
                     <div className="d-flex justify-content-center mt-5">
                     <button
                         className="btn btn-danger "
@@ -52,6 +56,19 @@ export let Mainpage = () => {
                     
                     </>
                     :
+                (updatepage)?
+                    <>
+                        <Updatepage who={position} mention={obj}/>
+                        <button
+                        onClick={()=>
+                        {
+                            setUpdatepage(false);
+                        }}
+                        >BACK
+                        </button>
+
+                    </>
+                    :
                     <>
                     <div className=" d-flex justify-content-center mt-4">
                         <button
@@ -65,13 +82,14 @@ export let Mainpage = () => {
                     </div>
                     <div className='container mt-5'>
                         <table className='table table-striped table-bordered'>
-                            <thead>
+                            <thead className="text-center">
                                 <tr>
                                     <th>StudentNAME</th>
                                     <th>StudentAGE</th>
                                     <th>StudentPLACE</th>
                                     <th>StudentMAILID</th>
                                     <th>PIN CODE</th>
+                                    <th>ACTIONS</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,15 +103,26 @@ export let Mainpage = () => {
                                                         <td>{element.studentplace}</td>
                                                         <td>{element.studentemail}</td>
                                                         <td>{element.pinnumber}</td>
-                                                        <td>
-                                                            <button
+                                                        <td >
+                                                            <button className="me-2"
                                                             onClick={()=>
                                                             {
                                                                 setReadpage(true);
                                                                 setPositon(index)
                                                             }}>Read</button>
-                                                            <button>Update</button>
-                                                            <button>Delete</button>
+                                                            <button className="me-2"
+                                                            onClick={()=>
+                                                            {
+                                                                setUpdatepage(true);
+                                                                setPositon(index);
+                                                                setObj(Fetchexact(element.studentname))
+                                                            }}
+                                                            >Update</button>
+                                                            <button
+                                                            onClick={()=>{
+                                                                setTempvalues(Remove1(index));
+                                                            }}
+                                                            >Delete</button>
                                                         </td>
                                                     </tr>
                                             </>
